@@ -4,6 +4,19 @@
 
 ### VirtualBox
 
+```
+> VBoxManage --version
+5.0.10r104061
+```
+
+### Vagrant
+
+```
+> vagrant version 
+Installed Version: 1.7.4
+Latest Version: 1.7.4
+```
+
 ### Add Vagrant Base Box
 
 ```
