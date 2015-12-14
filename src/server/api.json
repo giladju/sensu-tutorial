@@ -1,6 +1,6 @@
 {
   "api": {
-    "host": "localhost",
+    "host": "192.168.50.103",
     "port": 4567,
     "user": "admin",
     "password": "jupass"

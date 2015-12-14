@@ -2,7 +2,7 @@ echo "sensu_server"
 wget -q http://repos.sensuapp.org/apt/pubkey.gpg -O- | sudo apt-key add -
 echo "deb     http://repos.sensuapp.org/apt sensu main" > /etc/apt/sources.list.d/sensu.list
 apt-get update
-apt-get install sensu
+apt-get install sensu sensu-enterprise-dashboard
 mkdir -p /etc/sensu/ssl
 cp /tmp/ssl/server/*.pem /etc/sensu/ssl
 cp /tmp/sensu/rabbitmq.json /etc/sensu/conf.d/rabbitmq.json
