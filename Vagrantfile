@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
     sensu_server_config.vm.provision "file", source: "src/ssl/server/cert.pem", destination: "/tmp/ssl/server/cert.pem"
     sensu_server_config.vm.provision "file", source: "src/ssl/server/key.pem", destination: "/tmp/ssl/server/key.pem"
     sensu_server_config.vm.provision "file", source: "src/sensu/rabbitmq.json", destination: "/tmp/sensu/rabbitmq.json"
-    sensu_server_config.vm.provision "file", source: "src/sensu/client.json", destination: "/tmp/sensu/client.json"
+    sensu_server_config.vm.provision "file", source: "src/server/client.json", destination: "/tmp/sensu/client.json"
     sensu_server_config.vm.provision "file", source: "src/server/redis.json", destination: "/tmp/server/redis.json"
     sensu_server_config.vm.provision "file", source: "src/server/api.json", destination: "/tmp/server/api.json"
     sensu_server_config.vm.provision "file", source: "src/server/dashboard.json", destination: "/tmp/server/dashboard.json"
