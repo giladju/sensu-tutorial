@@ -1,0 +1,6 @@
+{
+  "redis": {
+    "host": "REDIS_SERVER_IP",
+    "port": 6379
+  }
+}
