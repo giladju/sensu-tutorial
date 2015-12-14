@@ -4,4 +4,4 @@ echo "deb     http://repos.sensuapp.org/apt sensu main" > /etc/apt/sources.list.
 apt-get update
 apt-get install sensu
 mkdir -p /etc/sensu/ssl
-cp /tmp/ssl/*.pem /etc/sensu/ssl
+cp /tmp/ssl/server/.pem /etc/sensu/ssl

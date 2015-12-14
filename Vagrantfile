@@ -1,49 +1,46 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby ts=2 sw=2 expandtab:
 
-Vagrant::Config.run do |config|
+Vagrant.configure(2) do |config|
 
-  box = "ubuntu-natty-64"
+  box = "ubuntu/trusty64"
   config.vm.define :rabbitmq do |rabbit_config|
     rabbit_config.vm.box = box
-    rabbit_config.vm.network :bridged, bridge: "eth0"
+    rabbit_config.vm.network "private_network", type: "dhcp"
+    rabbit_config.vm.provision "file", source: "src/ssl/server/cert.pem", destination: "/tmp/ssl/server/cert.pem"
+    rabbit_config.vm.provision "file", source: "src/ssl/server/key.pem", destination: "/tmp/ssl/server/key.pem"
+    rabbit_config.vm.provision "file", source: "src/ssl/sensu_ca/cacert.pem", destination: "/tmp/ssl/sensu_ca/cacert.pem"
+    rabbit_config.vm.provision "file", source: "src/rabbitmq/rabbitmq.config", destination: "/tmp/rabbitmq/rabbitmq.config"
     rabbit_config.vm.provision :shell, :path => "scripts/rabbitmq.sh"
-    rabbit_config.vm.customize do |vm|
-      vm.name = "rabbitmq"
-    end
+    rabbit_config.vm.host_name = "rabbitmq"
   end
 
   config.vm.define :redis do |redis_config|
     redis_config.vm.box = box
-    redis_config.vm.network :bridged, bridge: "eth0"
+    redis_config.vm.network "private_network", type: "dhcp"
+    redis_config.vm.network "forwarded_port", guest: 6379, host: 6379
     redis_config.vm.provision :shell, :path => "scripts/redis.sh"
-    redis_config.vm.customize do |vm|
-      vm.name = "redis"
-    end
+    redis_config.vm.host_name = "redis"
   end
 
   config.vm.define :sensu_server do |sensu_server_config|
     sensu_server_config.vm.box = box
-    sensu_server_config.vm.network :bridged, bridge: "eth0"
-    sensu_server_config.vm.provision "file", source: "src/ssl/server/cert.pem", destination: "/tmp/ssl/cert.pem"
-    sensu_server_config.vm.provision "file", source: "src/ssl/server/key.pem", destination: "/tmp/ssl/key.pem"
+    sensu_server_config.vm.network "private_network", type: "dhcp"
+    sensu_server_config.vm.provision "file", source: "src/ssl/server/cert.pem", destination: "/tmp/ssl/server/cert.pem"
+    sensu_server_config.vm.provision "file", source: "src/ssl/server/key.pem", destination: "/tmp/ssl/server/key.pem"
     sensu_server_config.vm.provision :shell, :path => "scripts/sensu_server.sh"
-    sensu_server_config.vm.share_folder("src", "/src", "~/vagrant/sensu/src")
-    sensu_server_config.vm.customize do |vm|
-      vm.name = "sensu-server"
-    end
+    sensu_server_config.vm.synced_folder("src", "/home/ubuntu/vagrant/sensu/src")
+    sensu_server_config.vm.host_name = "sensu-server"
   end
 
   config.vm.define :sensu_client do |sensu_client_config|
     sensu_client_config.vm.box = box
-    sensu_client_config.vm.network :bridged, bridge: "eth0"
-    sensu_client_config.vm.provision "file", source: "src/ssl/client/cert.pem", destination: "/tmp/ssl/cert.pem"
-    sensu_client_config.vm.provision "file", source: "src/ssl/client/key.pem", destination: "/tmp/ssl/key.pem"
+    sensu_client_config.vm.network "private_network", type: "dhcp"
+    sensu_client_config.vm.provision "file", source: "src/ssl/client/cert.pem", destination: "/tmp/ssl/client/cert.pem"
+    sensu_client_config.vm.provision "file", source: "src/ssl/client/key.pem", destination: "/tmp/ssl/client/key.pem"
     sensu_client_config.vm.provision :shell, :path => "scripts/sensu_client.sh"
-    sensu_client_config.vm.share_folder("src", "/src", "~/vagrant/sensu/src")
-    sensu_client_config.vm.customize do |vm|
-      vm.name = "sensu-client"
-    end
+    sensu_client_config.vm.synced_folder("src", "/home/ubuntu/vagrant/sensu/src")
+    sensu_client_config.vm.host_name = "sensu-client"
   end
 
 end
