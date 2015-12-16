@@ -2,19 +2,21 @@ echo "sensu_server"
 wget -q http://repos.sensuapp.org/apt/pubkey.gpg -O- | sudo apt-key add -
 echo "deb     http://repos.sensuapp.org/apt sensu main" > /etc/apt/sources.list.d/sensu.list
 apt-get update
-apt-get install sensu sensu-enterprise-dashboard
+apt-get install -y sensu 
+apt-get install -y uchiwa
 mkdir -p /etc/sensu/ssl
+mkdir -p /etc/sensu/conf.d
 cp /tmp/ssl/server/*.pem /etc/sensu/ssl
 cp /tmp/sensu/rabbitmq.json /etc/sensu/conf.d/rabbitmq.json
 cp /tmp/server/redis.json /etc/sensu/conf.d/redis.json
 cp /tmp/server/api.json /etc/sensu/conf.d/api.json
-cp /tmp/server/dashboard.json /etc/sensu/conf.d/dashboard.json
+cp /tmp/server/uchiwa.json /etc/sensu/uchiwa.json
 cp /tmp/sensu/client.json /etc/sensu/conf.d/client.json
 update-rc.d sensu-server defaults
 update-rc.d sensu-client defaults
 update-rc.d sensu-api defaults
-update-rc.d sensu-dashboard defaults
+update-rc.d uchiwa defaults
 /etc/init.d/sensu-server start
 /etc/init.d/sensu-client start
 /etc/init.d/sensu-api start
-/etc/init.d/sensu-dashboard start
+/etc/init.d/uchiwa start

@@ -32,7 +32,7 @@ Vagrant.configure(2) do |config|
     sensu_server_config.vm.provision "file", source: "src/server/client.json", destination: "/tmp/sensu/client.json"
     sensu_server_config.vm.provision "file", source: "src/server/redis.json", destination: "/tmp/server/redis.json"
     sensu_server_config.vm.provision "file", source: "src/server/api.json", destination: "/tmp/server/api.json"
-    sensu_server_config.vm.provision "file", source: "src/server/dashboard.json", destination: "/tmp/server/dashboard.json"
+    sensu_server_config.vm.provision "file", source: "src/server/uchiwa.json", destination: "/tmp/server/uchiwa.json"
     sensu_server_config.vm.provision :shell, :path => "scripts/sensu_server.sh"
     sensu_server_config.vm.synced_folder("src", "/home/ubuntu/vagrant/sensu/src")
     sensu_server_config.vm.host_name = "sensu-server"
@@ -44,7 +44,7 @@ Vagrant.configure(2) do |config|
     sensu_client_config.vm.provision "file", source: "src/ssl/client/cert.pem", destination: "/tmp/ssl/client/cert.pem"
     sensu_client_config.vm.provision "file", source: "src/ssl/client/key.pem", destination: "/tmp/ssl/client/key.pem"
     sensu_client_config.vm.provision "file", source: "src/sensu/rabbitmq.json", destination: "/tmp/sensu/rabbitmq.json"
-    sensu_client_config.vm.provision "file", source: "src/sensu/client.json", destination: "/tmp/sensu/client.json"
+    sensu_client_config.vm.provision "file", source: "src/client/client.json", destination: "/tmp/sensu/client.json"
     sensu_client_config.vm.provision :shell, :path => "scripts/sensu_client.sh"
     sensu_client_config.vm.synced_folder("src", "/home/ubuntu/vagrant/sensu/src")
     sensu_client_config.vm.host_name = "sensu-client"
