@@ -36,6 +36,7 @@ Vagrant.configure(2) do |config|
   config.vm.define :sensu_client do |sensu_client_config|
     sensu_client_config.vm.box = box
     sensu_client_config.vm.network "private_network", ip: "192.168.50.104"
+    sensu_client_config.vm.provision "file", source: "src/client/config.json", destination: "/tmp/sensu/config.json"
     sensu_client_config.vm.provision "file", source: "src/client/client.json", destination: "/tmp/sensu/client.json"
     sensu_client_config.vm.provision :shell, :path => "scripts/sensu_client.sh"
     sensu_client_config.vm.synced_folder("src", "/home/ubuntu/vagrant/sensu/src")
